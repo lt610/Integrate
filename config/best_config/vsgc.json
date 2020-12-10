@@ -1,0 +1,39 @@
+{
+  "gpus": [0, 1, 2, 3],
+  "max_proc_num": 2,
+  "parallel_proc_num": 3,
+  "wait_time": 5,
+  "seed": 1222,
+  "params": {
+    "cora": {
+      "dataset": "cora",
+      "k": 8,
+      "dropout": 0.8,
+      "lr": 0.1,
+      "weight_decay": 5e-4,
+      "num_epochs": 1500,
+      "patience": 100,
+      "num_runs": 50
+    },
+    "citeseer": {
+      "dataset": "citeseer",
+      "k": 4,
+      "dropout": 0,
+      "lr": 0.01,
+      "weight_decay": 0.001,
+      "num_epochs": 1500,
+      "patience": 100,
+      "num_runs": 50
+    },
+    "pubmed": {
+      "dataset": "pubmed",
+      "k": 32,
+      "dropout": 0.8,
+      "lr": 0.1,
+      "weight_decay": 0.001,
+      "num_epochs": 1500,
+      "patience": 100,
+      "num_runs": 50
+    }
+  }
+}

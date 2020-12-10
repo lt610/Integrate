@@ -1,0 +1,17 @@
+{
+  "gpus": [0, 1, 2, 3],
+  "max_proc_num": 2,
+  "wait_time": 15,
+  "seed": 1222,
+  "params": {
+    "dataset": "cora",
+    "num_hidden": 64,
+    "num_layers": 8,
+    "dropout": 0,
+    "lr": 0.01,
+    "weight_decay": 0,
+    "num_epochs": 1500,
+    "patience": 100,
+    "num_runs": 5
+  }
+}
