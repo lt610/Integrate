@@ -44,7 +44,12 @@ def main(gpus, max_proc_num, seed, model_name, params):
             train_loss, train_acc, val_loss, val_acc, test_loss, test_acc\
                 = evaluate_all_acc_loss(model, graph, features, labels, (train_mask, val_mask, test_mask))
 
-            early_stopping(val_acc, (train_loss, train_acc, val_loss, val_acc,
+            if params["ex_by_loss"]:
+                score = -val_loss
+            else:
+                score = val_acc
+
+            early_stopping(score, (train_loss, train_acc, val_loss, val_acc,
                                      test_loss, test_acc))
 
             # current val_acc 和 test_acc
