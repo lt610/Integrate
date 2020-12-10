@@ -4,15 +4,23 @@
   "parallel_proc_num": 1,
   "wait_time": 0,
   "seed": 1222,
+
   "params": {
-      "dataset": "cora",
-      "k": 4,
+      "dataset": "ogbn-arxiv",
+
+      "hidden_dim": 64,
+      "k": 20,
+      "batch_norm": false,
       "dropout": 0,
-      "lr": 0.01,
+      "propagation": 0,
+      "mlp_layer_num": 1,
+
+      "lr": 0.1,
       "weight_decay": 0,
+
       "num_epochs": 1500,
-      "patience": 100,
-      "ex_by_loss": true,
+      "patience": 1500,
+      "ex_by_loss": false,
       "num_runs": 1
     }
 }

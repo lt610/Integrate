@@ -3,7 +3,7 @@ from util.other_util import cal_gain
 
 
 class MLPLayer(nn.Module):
-    def __init__(self, in_dim, out_dim, bias=False, activation=None,
+    def __init__(self, in_dim, out_dim, bias=True, activation=None,
                  batch_norm=False, dropout=0):
         super(MLPLayer, self).__init__()
         self.linear = nn.Linear(in_dim, out_dim, bias=bias)
@@ -16,14 +16,16 @@ class MLPLayer(nn.Module):
 
     def reset_parameters(self):
         gain = cal_gain(self.activation)
+        # nn.init.xavier_uniform_(self.linear.weight, gain=gain)
         nn.init.xavier_normal_(self.linear.weight, gain=gain)
+        if self.linear.bias is not None:
+            nn.init.zeros_(self.linear.bias)
 
-    def forward(self, g, features):
-        h_pre = features
-        h = self.dropout(features)
-        h = self.linear(h)
-        if self.batch_norm:
-            h = self.bn(h)
-        if self.activation:
-            h = self.activation(h)
-        return h
+    def forward(self, features):
+            h = self.dropout(features)
+            h = self.linear(h)
+            if self.batch_norm:
+                h = self.bn(h)
+            if self.activation:
+                h = self.activation(h)
+            return h

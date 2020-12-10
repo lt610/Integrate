@@ -1,13 +1,12 @@
-from net.asgc_net import ASGCNet
 from net.vsgc_net import VSGCNet
 from train.early_stopping import EarlyStopping
-from util.data_util import load_citation_data
+from util.data_util import load_data
 import torch as th
 
 
 def prepare_data(device, params):
     graph, features, labels, train_mask, \
-    val_mask, test_mask, num_feats, num_classes = load_citation_data(params['dataset'])
+    val_mask, test_mask, num_feats, num_classes = load_data(params['dataset'])
     labels = labels.squeeze()
     graph = graph.to(device)
     features = features.to(device)
@@ -30,10 +29,14 @@ def prepare_model(device, params, num_feats, num_classes, model_name):
         )
     elif model_name == "vsgc":
         model = VSGCNet(
-            num_feats=num_feats,
-            num_classes=num_classes,
+            in_dim=num_feats,
+            hidden_dim=params["hidden_dim"],
+            out_dim=num_classes,
             k=params["k"],
+            batch_norm=params["batch_norm"],
             dropout=params["dropout"],
+            propagation=params["propagation"],
+            mlp_layer_num=params["mlp_layer_num"]
         )
     else:
         pass

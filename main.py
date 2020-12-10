@@ -9,7 +9,7 @@ import torch as th
 ex = Experiment()
 ex.observers.append(MongoObserver(url='10.192.9.196:27017',
                                       db_name='sacred'))
-models = ["asgc", "vsgc"]
+models = ["vsgc"]
 
 @ex.config
 def base_config():
@@ -27,22 +27,25 @@ def main(gpus, max_proc_num, seed, model_name, params):
         device = "cpu"
     else:
         device = get_free_gpu(gpus, max_proc_num)
+
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = prepare_data(device, params)
     random_seeds = generate_random_seeds(seed, params["num_runs"])
     test_accs = []
 
     for run in range(params["num_runs"]):
         model, optimizer, early_stopping = prepare_model(device, params, num_feats, num_classes, model_name)
-
+        log_run_num = 2
         # 只记录前3 runs的logs
-        if run < 3:
+        if run < log_run_num:
             print_split(" {}th run ".format(run))
 
         set_random_state(random_seeds[run])
+
         for epoch in range(params['num_epochs']):
             train(model, graph, features, labels, train_mask, optimizer)
             train_loss, train_acc, val_loss, val_acc, test_loss, test_acc\
-                = evaluate_all_acc_loss(model, graph, features, labels, (train_mask, val_mask, test_mask))
+                = evaluate_all_acc_loss(model, graph, features, labels,
+                                        (train_mask, val_mask, test_mask))
 
             if params["ex_by_loss"]:
                 score = -val_loss
@@ -59,24 +62,24 @@ def main(gpus, max_proc_num, seed, model_name, params):
                 print_log_tvt(ex, epoch, train_loss, train_acc, val_loss, val_acc,
                               test_loss, test_acc, cva, cta)
             # 只记录前3 runs的logs, 这里有空封装一下吧
-            elif run < 2:
+            elif run < log_run_num:
                 print_tvt(epoch, train_loss, train_acc, val_loss, val_acc,
                           test_loss, test_acc, cva, cta)
 
             if early_stopping.is_stop:
                 # 只记录前3 runs的logs
-                if run < 2:
-                    print("Early stopping at epoch:{:05d}".format(epoch - 100))
+                if run < log_run_num:
+                    print("Early stopping at epoch:{:04d}".format(epoch - 100))
                 break
         train_loss, train_acc, val_loss, val_acc, test_loss, test_acc = early_stopping.metrics
         # 只记录前3 runs的logs
-        if run < 2:
-            # 这里的bug有空修改下
+        if run < log_run_num:
+
             print_tvt(epoch - 100, train_loss, train_acc, val_loss, val_acc,
                       test_loss, test_acc, cva, cta)
         test_accs.append(test_acc)
 
-    print_split("Final Result")
+    print_split("\nFinal Result")
     avg = sum(test_accs) / params["num_runs"]
     std = ((sum([(t - avg) ** 2 for t in test_accs])) / params["num_runs"]) ** 0.5
 
