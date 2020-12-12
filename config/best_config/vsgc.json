@@ -1,62 +1,128 @@
 {
-  "gpus": [0, 1, 2, 3],
+  "gpus": [1, 2, 3],
   "max_proc_num": 2,
-  "parallel_proc_num": 3,
+  "parallel_proc_num": 6,
   "wait_time": 5,
   "seed": 1222,
 
   "params": {
-    "cora": {
+    "cora1": {
       "dataset": "cora",
 
       "hidden_dim": 64,
-      "k": 32,
+      "k": 16,
       "batch_norm": false,
       "dropout": 0.8,
+      "dropout_before": true,
       "propagation": 0,
-      "mlp_layer_num": 1,
+      "with_mlp": false,
+      "mlp_before": false,
 
-      "lr": 0.5,
-      "weight_decay": 0.001,
+      "lr": 0.1,
+      "weight_decay": 0.0005,
 
       "num_epochs": 1500,
-      "patience": 100,
+      "patience": 500,
       "ex_by_loss": false,
       "num_runs": 100
     },
-    "citeseer": {
-      "dataset": "citeseer",
+    "cora2": {
+      "dataset": "cora",
 
       "hidden_dim": 64,
-      "k": 24,
-      "batch_norm": false,
-      "dropout": 0,
-      "propagation": 0,
-      "mlp_layer_num": 1,
-
-      "lr": 0.3,
-      "weight_decay": 0.001,
-
-      "num_epochs": 1500,
-      "patience": 100,
-      "ex_by_loss": false,
-      "num_runs": 100
-    },
-    "pubmed": {
-      "dataset": "pubmed",
-
-      "hidden_dim": 64,
-      "k": 32,
+      "k": 16,
       "batch_norm": false,
       "dropout": 0.8,
+      "dropout_before": true,
       "propagation": 0,
-      "mlp_layer_num": 1,
+      "with_mlp": false,
+      "mlp_before": false,
 
       "lr": 0.3,
       "weight_decay": 0.0005,
 
       "num_epochs": 1500,
-      "patience": 100,
+      "patience": 500,
+      "ex_by_loss": false,
+      "num_runs": 100
+    },
+    "citeseer1": {
+      "dataset": "citeseer",
+
+      "hidden_dim": 64,
+      "k": 16,
+      "batch_norm": false,
+      "dropout": 0.5,
+      "dropout_before": true,
+      "propagation": 0,
+      "with_mlp": false,
+      "mlp_before": false,
+
+      "lr": 0.3,
+      "weight_decay": 0.0005,
+
+      "num_epochs": 1500,
+      "patience": 500,
+      "ex_by_loss": false,
+      "num_runs": 100
+    },
+    "citeseer2": {
+      "dataset": "citeseer",
+
+      "hidden_dim": 64,
+      "k": 16,
+      "batch_norm": false,
+      "dropout": 0,
+      "dropout_before": true,
+      "propagation": 0,
+      "with_mlp": false,
+      "mlp_before": false,
+
+      "lr": 0.5,
+      "weight_decay": 0.0005,
+
+      "num_epochs": 1500,
+      "patience": 500,
+      "ex_by_loss": false,
+      "num_runs": 100
+    },
+    "pubmed1": {
+      "dataset": "pubmed",
+
+      "hidden_dim": 64,
+      "k": 40,
+      "batch_norm": false,
+      "dropout": 0.8,
+      "dropout_before": true,
+      "propagation": 0,
+      "with_mlp": false,
+      "mlp_before": false,
+
+      "lr": 0.5,
+      "weight_decay": 0.0005,
+
+      "num_epochs": 1500,
+      "patience": 500,
+      "ex_by_loss": false,
+      "num_runs": 100
+    },
+    "pubmed2": {
+      "dataset": "pubmed",
+
+      "hidden_dim": 64,
+      "k": 40,
+      "batch_norm": false,
+      "dropout": 0.8,
+      "dropout_before": true,
+      "propagation": 0,
+      "with_mlp": false,
+      "mlp_before": false,
+
+      "lr": 0.3,
+      "weight_decay": 0.001,
+
+      "num_epochs": 1500,
+      "patience": 500,
       "ex_by_loss": false,
       "num_runs": 100
     }

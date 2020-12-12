@@ -69,11 +69,17 @@ def get_gpu_proc_num(gpu=0, max_proc_num=2):
     return len(process)
 
 
-def get_free_gpu(gpus=[0], max_proc_num=2):
-    for i in range(max_proc_num):
-        for gpu in gpus:
-            if get_gpu_proc_num(gpu) == i:
-                return gpu
+def get_free_gpu(gpus=[0], max_proc_num=2, max_wait=100):
+    waited = 0
+    while True:
+        for i in range(max_proc_num):
+            for gpu in gpus:
+                if get_gpu_proc_num(gpu) == i:
+                    return gpu
+        time.sleep(10)
+        waited += 10
+        if waited > max_wait:
+            raise Exception("There is no free gpu.")
 
 
 def exec_cmd(cmd):
@@ -89,10 +95,15 @@ def exec_cmds(cmds):
 
 
 def parallel_exec_cmds(parallel_proc_num, wait_time, cmds):
+    if parallel_proc_num > len(cmds):
+        parallel_proc_num = len(cmds)
+
     procs = []
-    gap = len(cmds) // parallel_proc_num
+    gap = int(len(cmds) / parallel_proc_num + 0.5)
     for i in range(parallel_proc_num):
         start, end = i * gap, min(len(cmds), (i+1)*gap)
+        if start >= len(cmds):
+            break
         batch_cmds = cmds[start:end]
         procs.append(Process(target=exec_cmds, args=(batch_cmds, )))
     for proc in procs:

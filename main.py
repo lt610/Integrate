@@ -34,7 +34,8 @@ def main(gpus, max_proc_num, seed, model_name, params):
 
     for run in range(params["num_runs"]):
         model, optimizer, early_stopping = prepare_model(device, params, num_feats, num_classes, model_name)
-        log_run_num = 2
+
+        log_run_num = 5
         # 只记录前3 runs的logs
         if run < log_run_num:
             print_split(" {}th run ".format(run))

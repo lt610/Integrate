@@ -9,18 +9,20 @@
       "dataset": "ogbn-arxiv",
 
       "hidden_dim": 64,
-      "k": 20,
+      "k": 4,
       "batch_norm": false,
       "dropout": 0,
+      "dropout_before": true,
       "propagation": 0,
-      "mlp_layer_num": 1,
+      "with_mlp": false,
+      "mlp_before": false,
 
       "lr": 0.1,
       "weight_decay": 0,
 
       "num_epochs": 1500,
-      "patience": 1500,
-      "ex_by_loss": false,
+      "patience": 100,
+      "ex_by_loss": true,
       "num_runs": 1
     }
 }

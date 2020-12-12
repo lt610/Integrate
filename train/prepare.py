@@ -19,15 +19,7 @@ def prepare_data(device, params):
 
 
 def prepare_model(device, params, num_feats, num_classes, model_name):
-    if model_name == 'asgc':
-        model = ASGCNet(
-            num_feats=num_feats,
-            num_classes=num_classes,
-            num_hidden=params['num_hidden'],
-            num_layers=params['num_layers'],
-            dropout=params['dropout']
-        )
-    elif model_name == "vsgc":
+    if model_name == "vsgc":
         model = VSGCNet(
             in_dim=num_feats,
             hidden_dim=params["hidden_dim"],
@@ -35,8 +27,10 @@ def prepare_model(device, params, num_feats, num_classes, model_name):
             k=params["k"],
             batch_norm=params["batch_norm"],
             dropout=params["dropout"],
+            dropout_before=params["dropout_before"],
             propagation=params["propagation"],
-            mlp_layer_num=params["mlp_layer_num"]
+            with_mlp=params["with_mlp"],
+            mlp_before=params["mlp_before"]
         )
     else:
         pass
