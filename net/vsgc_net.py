@@ -6,7 +6,7 @@ import torch.nn.functional as F
 
 
 class VSGCNet(nn.Module):
-    def __init__(self, in_dim, hidden_dim, out_dim, bias=True, k=1, activation=F.relu,
+    def __init__(self, in_dim, hidden_dim, out_dim, bias=True, k=1, alp=1, lam=1, activation=F.relu,
                  batch_norm=False, dropout=0, dropout_before=True, propagation=0,
                  with_mlp=False, mlp_before=False):
 
@@ -43,6 +43,8 @@ class VSGCNet(nn.Module):
 
         self.vsgc = VSGCLayer(
             k=k,
+            alp=alp,
+            lam=lam,
             propagation=propagation
         )
 

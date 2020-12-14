@@ -3,5 +3,8 @@ import os
 from subprocess import Popen, DEVNULL
 import random
 
-a = [1, 2, 3, 4, 5]
-print(a[0:5])
+from util.data_util import load_data
+
+graph, features, labels, train_mask, \
+    val_mask, test_mask, num_feats, num_classes = load_data('ogbn-arxiv')
+print(features.shape)

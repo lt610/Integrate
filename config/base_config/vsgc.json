@@ -9,15 +9,17 @@
       "dataset": "ogbn-arxiv",
 
       "hidden_dim": 64,
-      "k": 4,
-      "batch_norm": false,
+      "k": 8,
+      "alp": 1,
+      "lam": 1,
+      "batch_norm": true,
       "dropout": 0,
       "dropout_before": true,
       "propagation": 0,
       "with_mlp": false,
       "mlp_before": false,
 
-      "lr": 0.1,
+      "lr": 0.001,
       "weight_decay": 0,
 
       "num_epochs": 1500,

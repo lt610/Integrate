@@ -1,7 +1,7 @@
 {
-  "gpus": [0, 1, 2, 3],
+  "gpus": [1, 2, 3],
   "max_proc_num": 2,
-  "parallel_proc_num": 8,
+  "parallel_proc_num": 6,
   "wait_time": 5,
   "seed": 1222,
 
@@ -10,9 +10,11 @@
 
     "hidden_dim": [64],
     "k": [2, 4, 8, 16, 24, 32, 40],
+    "alp": [1],
+    "lam": [1],
     "batch_norm": [false],
     "dropout": [0, 0.5, 0.8],
-    "dropout_before": [false],
+    "dropout_before": [true],
     "propagation": [0],
     "with_mlp": [false],
     "mlp_before": [false],
