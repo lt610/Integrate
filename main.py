@@ -1,6 +1,6 @@
 from sacred import Experiment
 from sacred.observers import MongoObserver
-from train.metrics import evaluate_all_acc_loss, evaluate_single_acc_loss
+from train.metric import evaluate_all_acc_loss, evaluate_single_acc_loss
 from train.prepare import prepare_data, prepare_model
 from train.train import train, print_tvt, print_log_tvt, print_split, generate_random_seeds,\
     set_random_state, get_free_gpu
