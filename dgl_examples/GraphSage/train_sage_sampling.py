@@ -4,19 +4,12 @@ import torch as th
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-import torch.multiprocessing as mp
-from torch.utils.data import DataLoader
-import dgl.function as fn
 import dgl.nn.pytorch as dglnn
 import time
 import argparse
-from _thread import start_new_thread
-from functools import wraps
-from dgl.data import RedditDataset
 import tqdm
-import traceback
 
-from load_graph import load_reddit, load_ogb, inductive_split
+from dgl_examples.GraphSage.load_graph import load_reddit, load_ogb, inductive_split
 
 class SAGE(nn.Module):
     def __init__(self,
