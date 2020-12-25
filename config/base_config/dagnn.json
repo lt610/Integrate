@@ -1,0 +1,23 @@
+{
+  "gpus": [0, 1, 2, 3],
+  "max_proc_num": 2,
+  "parallel_proc_num": 1,
+  "wait_time": 0,
+  "seed": 1222,
+
+  "params": {
+      "dataset": "pubmed",
+
+      "hidden_dim": 64,
+      "k": 10,
+      "dropout": 0.5,
+
+      "lr": 0.01,
+      "weight_decay": 0.005,
+
+      "num_epochs": 1500,
+      "patience": 100,
+      "ex_by_loss": true,
+      "num_runs": 1
+    }
+}

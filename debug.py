@@ -3,9 +3,16 @@ import os
 from subprocess import Popen, DEVNULL
 import random
 
-from util.data_util import load_data
+import dgl
 
-seed = 42
-random.seed(seed)
-r1 = [random.randint(1, 999999999) for _ in range(10)]
-print(r1)
+from util.data_util import load_data
+import numpy as np
+import pandas as pd
+
+a = [[1, 2],[3, 4]]
+b = pd.DataFrame(a)
+print(b)
+
+
+
+

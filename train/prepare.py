@@ -1,4 +1,5 @@
 from net.vsgc_net import VSGCNet
+from net.dagnn_net import DAGNNNet
 from train.early_stopping import EarlyStopping
 from util.data_util import load_data
 import torch as th
@@ -33,6 +34,14 @@ def prepare_model(device, params, num_feats, num_classes, model_name):
             propagation=params["propagation"],
             with_mlp=params["with_mlp"],
             mlp_before=params["mlp_before"]
+        )
+    elif model_name == "dagnn":
+        model = DAGNNNet(
+            in_dim=num_feats,
+            hidden_dim=params["hidden_dim"],
+            out_dim=num_classes,
+            k = params["k"],
+            dropout=params["dropout"]
         )
     else:
         pass
