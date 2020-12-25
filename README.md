@@ -14,5 +14,5 @@ TODO
 * [ ] Link prediction
 * [ ] Graph classification
 * [ ] Standardize logs and notes
-  * [ ] params, time
+  * [ ] logs: params, time, dynamic
 * [ ] Run interrupt recover
