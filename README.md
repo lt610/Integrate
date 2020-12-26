@@ -9,6 +9,9 @@ TODO
   * [ ] Further optimize parallel
   * [ ] Waiting  logics
 * [ ] DGL large graph
+  * [ ] Node-wise
+  * [ ] Layer-wise
+  * [ ] Subgraph-wise
 * [ ] DGL distributed training
 * [x] Random seeds control
 * [ ] Link prediction
