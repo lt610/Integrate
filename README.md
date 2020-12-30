@@ -5,6 +5,7 @@ TODO
 * [x] Sacred
   * [ ] Artifacts(Such as customized pictures)
   * [ ] Further standardize configs
+  * [ ] optimize redundant config parameters
 * [x] Automatic GPU allocation
   * [ ] Further optimize parallel
   * [ ] Waiting  logics
