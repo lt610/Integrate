@@ -69,7 +69,7 @@ def get_gpu_proc_num(gpu=0, max_proc_num=2):
     return len(process)
 
 
-def get_free_gpu(gpus=[0], max_proc_num=2, max_wait=100):
+def get_free_gpu(gpus=[0], max_proc_num=2, max_wait=3600):
     waited = 0
     while True:
         for i in range(max_proc_num):

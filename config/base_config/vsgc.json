@@ -1,26 +1,27 @@
 {
   "gpus": [0, 1, 2, 3],
-  "max_proc_num": 2,
+  "max_proc_num": 1,
   "parallel_proc_num": 1,
   "wait_time": 0,
-  "seed": 1222,
+  "seed": 2333,
 
   "params": {
-      "dataset": "ogbn-arxiv",
+      "dataset": "citeseer",
 
       "hidden_dim": 64,
-      "k": 8,
+      "k": 48,
       "alp": 1,
       "lam": 1,
-      "batch_norm": true,
-      "dropout": 0,
+      "batch_norm": false,
+      "drop_map": 0.5,
+      "drop_mlp": 0,
       "dropout_before": true,
-      "propagation": 0,
+      "propagation": "lt",
       "with_mlp": false,
       "mlp_before": false,
 
-      "lr": 0.001,
-      "weight_decay": 0,
+      "lr": 0.1,
+      "weight_decay": 0.001,
 
       "num_epochs": 1500,
       "patience": 100,

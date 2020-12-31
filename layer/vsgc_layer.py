@@ -4,99 +4,50 @@ import dgl.function as fn
 
 
 class VSGCLayer(nn.Module):
-    def __init__(self, k=1, alp=1, lam=1, propagation=0):
+    def __init__(self, alp=1, lam=1, propagation=0):
         super(VSGCLayer, self).__init__()
         self.alp = alp
         self.lam = lam
-        self.k = k
         self.propagation = propagation
 
-    def forward(self, graph, features):
+    def propagation_lt(self, graph, h, ini_h):
         g = graph.local_var()
-        degs = g.in_degrees().float() - 1.0
-        norm_lambd_1 = th.pow(self.lam * degs + 1.0, -1)
-        norm_lambd_1 = norm_lambd_1.to(features.device).unsqueeze(1)
+        bef_A, aft_A, bef_X = g.ndata["bef_A"], g.ndata["aft_A"], g.ndata["bef_X"]
+        ini_h = ini_h * bef_X
+        pre_h = h
 
-        norm05 = th.pow(degs + 1.0, 0.5)
-        norm05 = norm05.to(features.device).unsqueeze(1)
-        norm_05 = th.pow(degs + 1.0, -0.5)
-        norm_05 = norm_05.to(features.device).unsqueeze(1)
+        g.ndata["h"] = h * aft_A
+        g.update_all(fn.copy_u('h', 'm'),
+                     fn.sum('m', 'h'))
+        h = g.ndata.pop('h')
+        h = h * bef_A
 
-        h = features
-        h_pre = h
-        h_initial = h * norm_lambd_1
-        if self.propagation == 0:
-            for _ in range(self.k):
-                h = h * norm_05
-
-                g.ndata['h'] = h
-                g.update_all(fn.copy_u('h', 'm'),
-                             fn.sum('m', 'h'))
-                h = g.ndata.pop('h')
-
-                h = h * norm_lambd_1 * norm05
-
-                h = self.alp * self.lam * h + (1 - self.alp) * h_pre + self.alp * h_initial
-
-                h_pre = h
-
-        else:
-            pass
-
+        h = self.alp * self.lam * h + (1 - self.alp) * pre_h + self.alp * ini_h
         return h
 
-    # def forward(self, graph, features):
-    #     g = graph.local_var()
-    #     degs = g.in_degrees().float()
-    #
-    #     norm_1 = th.pow(degs, -1).to(features.device).unsqueeze(1)
-    #     norm_05 = th.pow(degs, -0.5).to(features.device).unsqueeze(1)
-    #
-    #     h = features
-    #     if self.propagation == 0:
-    #         h_initial = h * norm_1
-    #         for _ in range(self.k):
-    #             h = h * norm_05
-    #             g.ndata['h'] = h
-    #             g.update_all(fn.copy_u('h', 'm'),
-    #                          fn.sum('m', 'h'))
-    #             h = g.ndata.pop('h')
-    #             h = h * norm_05
-    #             h = h + h_initial
-    #
-    #     elif self.propagation == 1:
-    #         h_pre = h
-    #         h_initial = h
-    #         for _ in range(self.k):
-    #             h = h * norm_05
-    #             g.ndata['h'] = h
-    #             g.update_all(fn.copy_u('h', 'm'),
-    #                          fn.sum('m', 'h'))
-    #             h = g.ndata.pop('h')
-    #             h = h * norm_05
-    #             h = h + h_initial - h_pre
-    #             h_pre = h
-    #     elif self.propagation == 2:
-    #         h_pre = h
-    #         h_initial = h * norm_1
-    #         for _ in range(self.k):
-    #             h = h * norm_05
-    #             g.ndata['h'] = h
-    #             g.update_all(fn.copy_u('h', 'm'),
-    #                          fn.sum('m', 'h'))
-    #             h = g.ndata.pop('h')
-    #             h = h * norm_05
-    #             h = h + h_initial - h_pre
-    #             h_pre = h
-    #     elif self.propagation == 3:
-    #         h_initial = h
-    #         for _ in range(self.k):
-    #             h = h * norm_05
-    #             g.ndata['h'] = h
-    #             g.update_all(fn.copy_u('h', 'm'),
-    #                          fn.sum('m', 'h'))
-    #             h = g.ndata.pop('h')
-    #             h = h * norm_05
-    #             h = h + h_initial
-    #
-    #     return h
+    def propagation_yyy(self, graph, h, ini_h):
+        g = graph.local_var()
+        D_in, D_out = g.ndata["D_in"], g.ndata["D_out"]
+        pre_h = h
+
+        g.ndata["h"] = h * D_out
+        g.update_all(fn.copy_u('h', 'm'),
+                     fn.sum('m', 'h'))
+        h = g.ndata.pop('h')
+        h = h * D_in
+
+        h = self.alp * self.lam * h + (1 - self.alp * self.lam - self.alp) * pre_h + self.alp * ini_h
+        return h
+
+    def exact_solution(self, graph, h):
+        h = graph.ndata["exact"].mm(h)
+        return h
+
+    def forward(self, graph, h, ini_h):
+        if self.propagation == "lt":
+            h = self.propagation_lt(graph, h, ini_h)
+        elif self.propagation == "yyy":
+            h = self.propagation_yyy(graph, h, ini_h)
+        elif self.propagation == "exact":
+            h = self.exact_solution(graph, h)
+        return h

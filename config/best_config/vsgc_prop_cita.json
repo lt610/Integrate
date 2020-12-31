@@ -3,7 +3,7 @@
   "max_proc_num": 2,
   "parallel_proc_num": 6,
   "wait_time": 5,
-  "seed": 1222,
+  "seed": 2333,
 
   "params": {
     "cora1": {
@@ -14,9 +14,10 @@
       "alp": 1,
       "lam": 1,
       "batch_norm": false,
-      "dropout": 0.8,
+      "drop_map": 0.5,
+      "drop_mlp": 0.5,
       "dropout_before": false,
-      "propagation": 0,
+      "propagation": "lt",
       "with_mlp": false,
       "mlp_before": false,
 
@@ -38,7 +39,7 @@
       "batch_norm": false,
       "dropout": 0.8,
       "dropout_before": false,
-      "propagation": 0,
+      "propagation": "lt",
       "with_mlp": false,
       "mlp_before": false,
 
@@ -60,7 +61,7 @@
       "batch_norm": false,
       "dropout": 0.5,
       "dropout_before": false,
-      "propagation": 0,
+      "propagation": "lt",
       "with_mlp": false,
       "mlp_before": false,
 
@@ -82,7 +83,7 @@
       "batch_norm": false,
       "dropout": 0.5,
       "dropout_before": false,
-      "propagation": 0,
+      "propagation": "lt",
       "with_mlp": false,
       "mlp_before": false,
 
@@ -104,7 +105,7 @@
       "batch_norm": false,
       "dropout": 0.8,
       "dropout_before": false,
-      "propagation": 0,
+      "propagation": "lt",
       "with_mlp": false,
       "mlp_before": false,
 
@@ -126,7 +127,7 @@
       "batch_norm": false,
       "dropout": 0.8,
       "dropout_before": false,
-      "propagation": 0,
+      "propagation": "lt",
       "with_mlp": false,
       "mlp_before": false,
 

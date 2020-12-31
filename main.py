@@ -9,16 +9,13 @@ import torch as th
 ex = Experiment()
 ex.observers.append(MongoObserver(url='10.192.9.196:27017',
                                       db_name='sacred'))
-models = ["vsgc", "dagnn"]
 
 @ex.config
 def base_config():
     tags = "debug"
-    model_name = "dagnn"
-    if model_name not in models:
-        raise Exception("The model {} doesn't exist.".format(model_name))
-    ex.add_config("config/base_config/{}.json".format(model_name))
-
+    config_name = "sgc"
+    ex.add_config("config/base_config/{}.json".format(config_name))
+    model_name = config_name.split("_")[0]
 
 @ex.automain
 def main(gpus, max_proc_num, seed, model_name, params):

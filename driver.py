@@ -13,16 +13,19 @@ ex = Experiment()
 @ex.config
 def base_config():
     tags = "search"
-    model_name = "vsgc"
+    config_name = "vsgc"
     if tags == "debug":
-        ex.add_config('config/base_config/{}.json'.format(model_name))
+        ex.add_config('config/base_config/{}.json'.format(config_name))
     elif tags == "final":
-        ex.add_config("config/best_config/{}.json".format(model_name))
+        ex.add_config("config/best_config/{}.json".format(config_name))
     elif tags == "search":
-        ex.add_config("config/search_config/{}.json".format(model_name))
+        ex.add_config("config/search_config/{}.json".format(config_name))
+    elif tags == "analyze":
+        ex.add_config("config/analyze_config/{}.json".format(config_name))
     else:
         raise Exception("There is no {}".format(tags))
-    ex_name = model_name
+    ex_name = config_name
+    model_name = config_name.split("_")[0]
 
 @ex.automain
 def main(gpus, max_proc_num, parallel_proc_num, wait_time, seed, tags, model_name, params, ex_name):
@@ -47,7 +50,7 @@ def main(gpus, max_proc_num, parallel_proc_num, wait_time, seed, tags, model_nam
         random.shuffle(cmds)
         parallel_exec_cmds(parallel_proc_num=parallel_proc_num, wait_time=wait_time, cmds=cmds)
 
-    elif tags == "search":
+    elif tags in ["search", "analyze"]:
         keys = list(params.keys())
         values = list(params.values())
         p = {}

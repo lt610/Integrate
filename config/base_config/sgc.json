@@ -1,0 +1,21 @@
+{
+  "gpus": [0, 1, 2, 3],
+  "max_proc_num": 1,
+  "parallel_proc_num": 1,
+  "wait_time": 0,
+  "seed": 2333,
+
+  "params": {
+      "dataset": "citeseer",
+
+      "k": 48,
+
+      "lr": 0.2,
+      "weight_decay": 5e-5,
+
+      "num_epochs": 1500,
+      "patience": 100,
+      "ex_by_loss": true,
+      "num_runs": 1
+    }
+}

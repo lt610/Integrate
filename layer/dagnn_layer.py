@@ -18,6 +18,7 @@ class DAGNNLayer(nn.Module):
         gain = cal_gain(F.sigmoid)
         nn.init.xavier_uniform_(self.s, gain=gain)
 
+
     def forward(self, graph, features):
         g = graph.local_var()
         h = features
