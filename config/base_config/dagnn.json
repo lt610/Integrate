@@ -6,11 +6,11 @@
   "seed": 1222,
 
   "params": {
-      "dataset": "pubmed",
+      "dataset": "cora",
 
       "hidden_dim": 64,
       "k": 10,
-      "dropout": 0.5,
+      "dropout": 0.8,
 
       "lr": 0.01,
       "weight_decay": 0.005,

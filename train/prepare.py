@@ -4,9 +4,7 @@ from net.dagnn_net import DAGNNNet
 from train.early_stopping import EarlyStopping
 from util.data_util import load_data
 import torch as th
-import dgl.function as fn
-
-from util.other_util import compute_D_and_e
+from util.train_util import compute_D_and_e
 
 
 def prepare_data(device, params):

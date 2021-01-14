@@ -3,6 +3,7 @@ from torch.nn import functional as F
 import torch as th
 import dgl.function as fn
 
+
 def cal_gain(fun, param=None):
     gain = 1
     if fun is F.sigmoid:
@@ -14,6 +15,7 @@ def cal_gain(fun, param=None):
     if fun is F.leaky_relu:
         gain = nn.init.calculate_gain('leaky_relu', param)
     return gain
+
 
 def compute_D_and_e(g, lam, propagation):
     if propagation == "lt":

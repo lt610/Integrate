@@ -99,6 +99,7 @@ def parallel_exec_cmds(parallel_proc_num, wait_time, cmds):
         parallel_proc_num = len(cmds)
 
     procs = []
+    # python list数组不存在越界问题，将来这里可以优化一下代码
     gap = int(len(cmds) / parallel_proc_num + 0.5)
     for i in range(parallel_proc_num):
         start, end = i * gap, min(len(cmds), (i+1)*gap)

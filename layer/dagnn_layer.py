@@ -3,7 +3,8 @@ from torch import nn
 from torch.nn import Parameter
 import dgl.function as fn
 from torch.nn import functional as F
-from util.other_util import cal_gain
+
+from util.train_util import cal_gain
 
 
 class DAGNNLayer(nn.Module):
@@ -17,7 +18,6 @@ class DAGNNLayer(nn.Module):
     def reset_parameters(self):
         gain = cal_gain(F.sigmoid)
         nn.init.xavier_uniform_(self.s, gain=gain)
-
 
     def forward(self, graph, features):
         g = graph.local_var()

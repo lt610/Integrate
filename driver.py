@@ -28,11 +28,12 @@ def base_config():
     model_name = config_name.split("_")[0]
 
 @ex.automain
-def main(gpus, max_proc_num, parallel_proc_num, wait_time, seed, tags, model_name, params, ex_name):
+def main(gpus, max_proc_num, parallel_proc_num, wait_time, seed,
+         tags, config_name, model_name, params, ex_name):
 
     prefix = 'python main.py --name {} with "gpus={}" max_proc_num={} seed={}' \
-             ' tags={} model_name={}'.format(ex_name, gpus, max_proc_num,
-                                             seed, tags, model_name)
+             ' tags={} config_name={} model_name={}'.format(ex_name, gpus, max_proc_num,
+                                             seed, tags, config_name, model_name)
     # suffix = ">/dev/null 2>&1 &"
     suffix = ""
     templete = '{} "params={}" {}'
