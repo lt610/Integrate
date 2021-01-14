@@ -1,7 +1,7 @@
 {
-  "gpus": [0, 1, 2, 3],
+  "gpus": [0, 1, 2],
   "max_proc_num": 2,
-  "parallel_proc_num": 8,
+  "parallel_proc_num": 6,
   "wait_time": 5,
   "seed": 1222,
 
@@ -11,6 +11,8 @@
       "hidden_dim": [64],
       "k": [2, 4, 6, 8, 10, 12, 16, 20, 24],
       "dropout": [0, 0.5, 0.8],
+      "batch_norm": [false],
+      "dropout_before": [true],
 
       "lr": [0.5, 0.3, 0.1, 0.01],
       "weight_decay": [0, 1e-3, 5e-3, 5e-4, 5e-5, 5e-6],
