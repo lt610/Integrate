@@ -1,7 +1,7 @@
 {
-  "gpus": [1, 2, 3],
+  "gpus": [0, 1, 2, 3],
   "max_proc_num": 2,
-  "parallel_proc_num": 6,
+  "parallel_proc_num": 8,
   "wait_time": 5,
   "seed": 1222,
 

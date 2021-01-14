@@ -5,12 +5,13 @@ import torch.nn.functional as F
 
 class MLPNet(nn.Module):
     def __init__(self, layer_num, in_dim, hidden_dim, out_dim, bias=True, activation=F.relu,
-                 batch_norm=False, dropout=0, dropout_before=True):
+                 batch_norm=False, dropout=0, dropout_before=True, initial="normal"):
         super(MLPNet, self).__init__()
         if layer_num < 2:
             raise Exception("The layer_num must larger than 1.")
         self.mlps = nn.ModuleList()
         for i in range(layer_num):
+            bn, do = batch_norm, dropout
             if i == 0:
                 in_d, out_d, acti = in_dim, hidden_dim, activation
             elif i == layer_num - 1:
@@ -21,9 +22,10 @@ class MLPNet(nn.Module):
                                       out_dim=out_d,
                                       bias=bias,
                                       activation=acti,
-                                      batch_norm=batch_norm,
-                                      dropout=dropout,
-                                      dropout_before=dropout_before))
+                                      batch_norm=bn,
+                                      dropout=do,
+                                      dropout_before=dropout_before,
+                                      initial=initial))
 
     def forward(self, features):
         h = features

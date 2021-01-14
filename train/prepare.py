@@ -48,7 +48,9 @@ def prepare_model(device, params, num_feats, num_classes, model_name):
             hidden_dim=params["hidden_dim"],
             out_dim=num_classes,
             k = params["k"],
-            dropout=params["dropout"]
+            batch_norm=params["batch_norm"],
+            dropout=params["dropout"],
+            dropout_before=params["dropout_before"]
         )
     elif model_name == "sgc":
         model = SGCNet(

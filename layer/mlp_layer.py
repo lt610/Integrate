@@ -5,7 +5,7 @@ from util.train_util import cal_gain
 
 class MLPLayer(nn.Module):
     def __init__(self, in_dim, out_dim, bias=True, activation=None,
-                 batch_norm=False, dropout=0, dropout_before=True):
+                 batch_norm=False, dropout=0, dropout_before=True, initial="normal"):
         super(MLPLayer, self).__init__()
         self.linear = nn.Linear(in_dim, out_dim, bias=bias)
         self.activation = activation
@@ -14,14 +14,24 @@ class MLPLayer(nn.Module):
             self.bn = nn.BatchNorm1d(out_dim)
         self.dropout = nn.Dropout(dropout)
         self.dropout_before = dropout_before
+        self.initial = initial
         self.reset_parameters()
 
     def reset_parameters(self):
-        gain = cal_gain(self.activation)
-        # nn.init.xavier_uniform_(self.linear.weight, gain=gain)
-        nn.init.xavier_normal_(self.linear.weight, gain=gain)
-        if self.linear.bias is not None:
-            nn.init.zeros_(self.linear.bias)
+        if self.initial == "kaiming":
+            self.linear.reset_parameters()
+        else:
+            gain = cal_gain(self.activation)
+            if self.initial == "uniform":
+                nn.init.xavier_uniform_(self.linear.weight, gain=gain)
+            elif self.initial == "normal":
+                nn.init.xavier_normal_(self.linear.weight, gain=gain)
+            else:
+                raise Exception("There is no initial: {}".format(self.initial))
+            if self.linear.bias is not None:
+                nn.init.zeros_(self.linear.bias)
+        if self.batch_norm:
+            self.bn.reset_parameters()
 
     def forward(self, features):
 

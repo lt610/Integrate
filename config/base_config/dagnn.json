@@ -6,14 +6,16 @@
   "seed": 1222,
 
   "params": {
-      "dataset": "cora",
+      "dataset": "ogbn-arxiv",
 
-      "hidden_dim": 64,
-      "k": 10,
-      "dropout": 0.8,
+      "hidden_dim": 512,
+      "k": 16,
+      "dropout": 0.2,
+      "batch_norm": true,
+      "dropout_before": false,
 
-      "lr": 0.01,
-      "weight_decay": 0.005,
+      "lr": 0.005,
+      "weight_decay": 0,
 
       "num_epochs": 1500,
       "patience": 100,

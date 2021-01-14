@@ -1,0 +1,23 @@
+{
+  "gpus": [4, 5, 7],
+  "max_proc_num": 2,
+  "parallel_proc_num": 6,
+  "wait_time": 20,
+  "seed": 1222,
+
+  "params": {
+      "dataset": ["ogbn-arxiv"],
+
+      "hidden_dim": [256, 512],
+      "k": [8, 10, 12, 16, 18, 20],
+      "dropout": [0, 0.2, 0.5],
+
+      "lr": [0.1, 0.01, 0.001, 0.005],
+      "weight_decay": [0, 1e-3, 5e-3, 5e-4, 5e-5, 5e-6],
+
+      "num_epochs": [1500],
+      "patience": [100],
+      "ex_by_loss": [true],
+      "num_runs": [10]
+    }
+}

@@ -12,6 +12,8 @@
       "hidden_dim": 64,
       "k": 10,
       "dropout": 0.8,
+      "batch_norm": false,
+      "dropout_before": true,
 
       "lr": 0.01,
       "weight_decay": 0.005,
@@ -27,6 +29,8 @@
       "hidden_dim": 64,
       "k": 10,
       "dropout": 0.5,
+      "batch_norm": false,
+      "dropout_before": true,
 
       "lr": 0.01,
       "weight_decay": 0.02,
@@ -42,6 +46,8 @@
       "hidden_dim": 64,
       "k": 20,
       "dropout": 0.8,
+      "batch_norm": false,
+      "dropout_before": true,
 
       "lr": 0.01,
       "weight_decay": 0.005,
