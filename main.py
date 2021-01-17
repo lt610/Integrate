@@ -7,14 +7,8 @@ from util.lt_util import get_free_gpu, generate_random_seeds, set_random_state, 
     log_split, log_metric, log_rec_metric, rec_metric
 
 ex = Experiment()
-try:
     ex.observers.append(MongoObserver(url='10.192.9.196:27017',
                                       db_name='sacred'))
-except:
-    ex.observers.append(MongoObserver(url='127.0.0.1:27017',
-                                      db_name='sacred'))
-
-
 
 @ex.config
 def base_config():
