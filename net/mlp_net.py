@@ -5,7 +5,7 @@ import torch.nn.functional as F
 
 class MLPNet(nn.Module):
     def __init__(self, layer_num, in_dim, hidden_dim, out_dim, bias=True, activation=F.relu,
-                 batch_norm=False, dropout=0, dropout_before=True, initial="normal"):
+                 batch_norm=False, dropout=0, dropout_before=True, initial="uniform", gain=True):
         super(MLPNet, self).__init__()
         if layer_num < 2:
             raise Exception("The layer_num must larger than 1.")
@@ -25,7 +25,8 @@ class MLPNet(nn.Module):
                                       batch_norm=bn,
                                       dropout=do,
                                       dropout_before=dropout_before,
-                                      initial=initial))
+                                      initial=initial,
+                                      gain=gain))
 
     def forward(self, features):
         h = features

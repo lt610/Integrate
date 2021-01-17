@@ -5,7 +5,8 @@ from util.lt_util import cal_gain
 
 class MLPLayer(nn.Module):
     def __init__(self, in_dim, out_dim, bias=True, activation=None,
-                 batch_norm=False, dropout=0, dropout_before=True, initial="normal"):
+                 batch_norm=False, dropout=0, dropout_before=True,
+                 initial="uniform", gain=True):
         super(MLPLayer, self).__init__()
         self.linear = nn.Linear(in_dim, out_dim, bias=bias)
         self.activation = activation
@@ -15,17 +16,21 @@ class MLPLayer(nn.Module):
         self.dropout = nn.Dropout(dropout)
         self.dropout_before = dropout_before
         self.initial = initial
+        self.gain = gain
         self.reset_parameters()
 
     def reset_parameters(self):
         if self.initial == "kaiming":
             self.linear.reset_parameters()
         else:
-            gain = cal_gain(self.activation)
+            if self.gain:
+                gain = cal_gain(self.activation)
+            else:
+                gain = 1.
             if self.initial == "uniform":
-                nn.init.xavier_uniform_(self.linear.weight, gain=gain)
+                nn.init.xavier_uniform_(self.linear.weight)
             elif self.initial == "normal":
-                nn.init.xavier_normal_(self.linear.weight, gain=gain)
+                nn.init.xavier_normal_(self.linear.weight)
             else:
                 raise Exception("There is no initial: {}".format(self.initial))
             if self.linear.bias is not None:

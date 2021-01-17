@@ -22,12 +22,14 @@ class VSGCNet(nn.Module):
                 mlps_in_dim, mlps_hidden_dim, mlps_out_dim = hidden_dim, hidden_dim, out_dim
             self.mlps = MLPNet(layer_num=2, in_dim=mlps_in_dim, hidden_dim=mlps_hidden_dim,
                                out_dim=mlps_out_dim, bias=bias, activation=activation,
-                               batch_norm=batch_norm, dropout=drop_mlp, dropout_before=dropout_before)
+                               batch_norm=batch_norm, dropout=drop_mlp, dropout_before=dropout_before,
+                               initial="normal", gain=False)
         else:
             map_in_dim, map_out_dim = in_dim, out_dim
         if not mlp_before:
             self.map = MLPLayer(in_dim=map_in_dim, out_dim=map_out_dim, batch_norm=batch_norm,
-                                dropout=drop_map, dropout_before=dropout_before)
+                                dropout=drop_map, dropout_before=dropout_before,
+                                initial="normal", gain=False)
         if self.propagation == "exact":
             self.vsgcs = VSGCLayer(alp=alp, lam=lam, propagation=propagation)
         else:
