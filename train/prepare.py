@@ -7,9 +7,9 @@ import torch as th
 from util.train_util import compute_D_and_e
 
 
-def prepare_data(device, params):
+def prepare_data(device, params, split_idx=0):
     graph, features, labels, train_mask, \
-    val_mask, test_mask, num_feats, num_classes = load_data(params['dataset'])
+    val_mask, test_mask, num_feats, num_classes = load_data(params['dataset'], split_idx)
     labels = labels.squeeze()
 
     graph = graph.to(device)

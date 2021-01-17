@@ -1,6 +1,5 @@
 import torch.nn as nn
 import torch.nn.functional as F
-from util.train_util import cal_gain
 from layer.dagnn_layer import DAGNNLayer
 from net.mlp_net import MLPNet
 

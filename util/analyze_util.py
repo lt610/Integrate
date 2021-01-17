@@ -1,12 +1,14 @@
 import pymongo
 import matplotlib.pyplot as plt
 
+
 def search_mongo(query, sort):
     client = pymongo.MongoClient("10.192.9.196:27017")
     db = client["sacred"]
     runs = db["runs"]
     items = items = runs.find(query).sort(sort)
     return items
+
 
 def parse_acc(ex_name):
     query = {"experiment.name": ex_name}
@@ -25,6 +27,7 @@ def parse_acc(ex_name):
         if k in part_idxs:
             part_accs.append(item["result"])
     return all_idxs, all_accs, part_idxs, part_accs
+
 
 def print_and_plot_vary_prop():
 
@@ -56,7 +59,6 @@ def print_and_plot_vary_prop():
     plt.plot(all_idxs, exact_accs, color='blueviolet',linestyle='--', marker=marker, ms=ms, label="exact")
     plt.legend()
     plt.show()
-
 
 
 if __name__ == "__main__":

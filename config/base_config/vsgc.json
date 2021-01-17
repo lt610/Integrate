@@ -6,26 +6,26 @@
   "seed": 2333,
 
   "params": {
-      "dataset": "citeseer",
+      "dataset": "geom-cornell",
 
-      "hidden_dim": 64,
-      "k": 16,
+      "hidden_dim": 128,
+      "k": 4,
       "alp": 1,
-      "lam": 1,
+      "lam": 0.01,
       "batch_norm": false,
-      "drop_map": 0.5,
+      "drop_map": 0,
       "drop_mlp": 0,
-      "dropout_before": false,
+      "dropout_before": true,
       "propagation": "lt",
-      "with_mlp": false,
-      "mlp_before": false,
+      "with_mlp": true,
+      "mlp_before": true,
 
-      "lr": 0.1,
-      "weight_decay": 0.0005,
+      "lr": 0.3,
+      "weight_decay": 5e-5,
 
-      "num_epochs": 1500,
-      "patience": 500,
-      "ex_by_loss": true,
-      "num_runs": 1
+      "num_epochs": 2000,
+      "patience": 2000,
+      "ex_by_loss": false,
+      "num_runs": 10
     }
 }

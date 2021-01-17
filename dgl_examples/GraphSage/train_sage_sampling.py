@@ -187,7 +187,7 @@ if __name__ == '__main__':
     argparser = argparse.ArgumentParser("multi-gpu training")
     argparser.add_argument('--gpu', type=int, default=0,
         help="GPU device ID. Use -1 for CPU training")
-    argparser.add_argument('--dataset', type=str, default='reddit')
+    argparser.add_argument('--data', type=str, default='reddit')
     argparser.add_argument('--num-epochs', type=int, default=20)
     argparser.add_argument('--num-hidden', type=int, default=16)
     argparser.add_argument('--num-layers', type=int, default=2)
@@ -213,7 +213,7 @@ if __name__ == '__main__':
     elif args.dataset == 'ogb-product':
         g, n_classes = load_ogb('ogbn-products')
     else:
-        raise Exception('unknown dataset')
+        raise Exception('unknown data')
 
     in_feats = g.ndata['features'].shape[1]
 

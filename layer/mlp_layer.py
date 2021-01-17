@@ -1,6 +1,6 @@
 from torch import nn
 
-from util.train_util import cal_gain
+from util.lt_util import cal_gain
 
 
 class MLPLayer(nn.Module):

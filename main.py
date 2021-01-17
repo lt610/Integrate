@@ -2,18 +2,19 @@ from sacred import Experiment
 from sacred.observers import MongoObserver
 from train.metric import evaluate_all_acc_loss, evaluate_single_acc_loss
 from train.prepare import prepare_data, prepare_model
-from train.train import train, generate_random_seeds, \
-    set_random_state, get_free_gpu, print_log_tvt, print_tvt, print_split
-import torch as th
+from train.train import train
+from util.lt_util import get_free_gpu, generate_random_seeds, set_random_state, \
+    log_split, log_metric, log_rec_metric, rec_metric
 
 ex = Experiment()
 ex.observers.append(MongoObserver(url='10.192.9.196:27017',
                                       db_name='sacred'))
 
+
 @ex.config
 def base_config():
     tags = "debug"
-    config_name = "dagnn"
+    config_name = "vsgc"
     if tags == "debug":
         ex.add_config('config/base_config/{}.json'.format(config_name))
     elif tags == "final":
@@ -27,66 +28,9 @@ def base_config():
     ex_name = config_name
     model_name = config_name.split("_")[0]
 
-@ex.automain
-def main(gpus, max_proc_num, seed, model_name, params):
-    # 这里以后如果有需要可以封装到find_free_devices()中
-    if not th.cuda.is_available():
-        device = "cpu"
-    else:
-        device = get_free_gpu(gpus, max_proc_num)
 
-    graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = prepare_data(device, params)
-    random_seeds = generate_random_seeds(seed, params["num_runs"])
-    test_accs = []
-
-    for run in range(params["num_runs"]):
-        set_random_state(random_seeds[run])
-        model, optimizer, early_stopping = prepare_model(device, params, num_feats, num_classes, model_name)
-
-        log_run_num = 2
-        # 只记录前几个runs的logs
-        if run < log_run_num:
-            print_split(" {}th run ".format(run))
-
-        for epoch in range(params['num_epochs']):
-            train(model, graph, features, labels, train_mask, optimizer)
-            train_loss, train_acc, val_loss, val_acc, test_loss, test_acc\
-                = evaluate_all_acc_loss(model, graph, features, labels,
-                                        (train_mask, val_mask, test_mask))
-
-            if params["ex_by_loss"]:
-                score = -val_loss
-            else:
-                score = val_acc
-
-            early_stopping(score, (train_loss, train_acc, val_loss, val_acc,
-                                     test_loss, test_acc))
-
-            # current val_acc 和 test_acc
-            cva, cta = early_stopping.metrics[3], early_stopping.metrics[5]
-            # 只记录第一个run的epoch-loss等曲线，其他更个性化的图片结果可以记录在artifacts里面
-            if run == 0:
-                print_log_tvt(ex, epoch, train_loss, train_acc, val_loss, val_acc,
-                              test_loss, test_acc, cva, cta)
-            # 只记录前3 runs的logs, 这里有空封装一下吧
-            elif run < log_run_num:
-                print_tvt(epoch, train_loss, train_acc, val_loss, val_acc,
-                          test_loss, test_acc, cva, cta)
-
-            if early_stopping.is_stop:
-                # 只记录前3 runs的logs
-                if run < log_run_num:
-                    print("Early stopping at epoch:{:04d}".format(epoch - 100))
-                break
-        train_loss, train_acc, val_loss, val_acc, test_loss, test_acc = early_stopping.metrics
-        # 只记录前3 runs的logs
-        if run < log_run_num:
-
-            print_tvt(epoch - 100, train_loss, train_acc, val_loss, val_acc,
-                      test_loss, test_acc, cva, cta)
-        test_accs.append(test_acc)
-
-    print_split("\nFinal Result")
+def compute_final_result(ex, params, test_accs):
+    log_split("Final Result")
     avg = sum(test_accs) / params["num_runs"]
     std = ((sum([(t - avg) ** 2 for t in test_accs])) / params["num_runs"]) ** 0.5
 
@@ -96,8 +40,57 @@ def main(gpus, max_proc_num, seed, model_name, params):
     ex.log_scalar("avg_test_acc", avg)
     ex.log_scalar("std_test_acc", std)
 
-    result = "{} ± {}".format(avg, std)
+    result = "{:.2f} ± {:.2f}".format(avg, std)
     print("Test_acc: {}".format(result))
     return result
+
+
+@ex.automain
+def main(gpus, max_proc_num, seed, model_name, params):
+
+    device = get_free_gpu(gpus, max_proc_num)
+    random_seeds = generate_random_seeds(seed, params["num_runs"])
+    test_accs = []
+
+    for run in range(params["num_runs"]):
+        set_random_state(random_seeds[run])
+        graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = prepare_data(device, params, run)
+        model, optimizer, early_stopping = prepare_model(device, params, num_feats, num_classes, model_name)
+
+        if run == 0:
+            log_split(" {}th run ".format(run))
+
+        for epoch in range(params['num_epochs']):
+            train(model, graph, features, labels, train_mask, optimizer)
+            train_loss, train_acc, val_loss, val_acc, test_loss, test_acc\
+                = evaluate_all_acc_loss(model, graph, features, labels,
+                                        (train_mask, val_mask, test_mask))
+
+            score = -val_loss if params["ex_by_loss"] else val_acc
+
+            metric = {"Train Loss": train_loss, "Val Loss": val_loss, "Test Loss": test_loss,
+                      "Train Acc": train_acc, "Val Acc": val_acc, "Test Acc": test_acc}
+
+            early_stopping(score, metric)
+            metric["Cur Acc"] = early_stopping.metrics["Test Acc"]
+            if run == 0:
+                log_rec_metric(ex, epoch, 4, metric)
+
+            if early_stopping.is_stop:
+                if run == 0:
+                    print("Early stopping at epoch:{:04d}".format(epoch - params["patience"]))
+                break
+
+        metric = early_stopping.metrics
+
+        print("Best Results of run {}".format(run))
+        epoch = epoch if epoch < params["patience"] else epoch - params["patience"]
+        log_metric(epoch, 4, **metric)
+        rec_metric(ex, run, 4, **{"Run Acc": metric["Test Acc"]})
+
+        test_accs.append(metric["Test Acc"])
+
+    return compute_final_result(ex, params, test_accs)
+
 
 

@@ -1,12 +1,7 @@
 import random
-import time
-from subprocess import Popen , DEVNULL
 from sacred import Experiment
-import os
-import itertools
-import multiprocessing
-from multiprocessing import Process
-from train.train import exec_cmds, exec_cmd, parallel_exec_cmds
+
+from util.lt_util import exec_cmd, parallel_exec_cmds
 
 ex = Experiment()
 
@@ -67,6 +62,7 @@ def main(gpus, max_proc_num, parallel_proc_num, wait_time, seed,
 
         random.shuffle(cmds)
         parallel_exec_cmds(parallel_proc_num=parallel_proc_num, wait_time=wait_time, cmds=cmds)
-
+    else:
+        raise Exception("There is no {}".format(tags))
 
 

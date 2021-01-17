@@ -5,7 +5,7 @@ import random
 
 import dgl
 import torch as th
-from util.data_util import load_data
+from util.data_util import load_file_data
 import numpy as np
 import pandas as pd
 import time
@@ -20,8 +20,17 @@ import tqdm
 # print(w.shape)
 
 
-a = [i for i in range(2, 33)]
+def log_metric(epoch, degree=4, **metric):
+    info = "Epoch {:04d}".format(epoch)
+    for key, value in metric.items():
+        info += " | {} {}".format(key, value)
+    print(info)
+
+a = "{:.4f}".format(0.22225)
 print(a)
+print(type(a))
+print(eval(a))
+print(type(eval(a)))
 
 
 

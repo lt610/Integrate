@@ -16,8 +16,7 @@ class VSGCNet(nn.Module):
         self.mlp_before = mlp_before
         if with_mlp:
             if mlp_before:
-                map_in_dim, map_out_dim = hidden_dim, out_dim
-                mlps_in_dim, mlps_hidden_dim, mlps_out_dim = in_dim, hidden_dim, hidden_dim
+                mlps_in_dim, mlps_hidden_dim, mlps_out_dim = in_dim, hidden_dim, out_dim
             else:
                 map_in_dim, map_out_dim = in_dim, hidden_dim
                 mlps_in_dim, mlps_hidden_dim, mlps_out_dim = hidden_dim, hidden_dim, out_dim
@@ -26,9 +25,9 @@ class VSGCNet(nn.Module):
                                batch_norm=batch_norm, dropout=drop_mlp, dropout_before=dropout_before)
         else:
             map_in_dim, map_out_dim = in_dim, out_dim
-
-        self.map = MLPLayer(in_dim=map_in_dim, out_dim=map_out_dim, batch_norm=batch_norm,
-                            dropout=drop_map, dropout_before=dropout_before)
+        if not mlp_before:
+            self.map = MLPLayer(in_dim=map_in_dim, out_dim=map_out_dim, batch_norm=batch_norm,
+                                dropout=drop_map, dropout_before=dropout_before)
         if self.propagation == "exact":
             self.vsgcs = VSGCLayer(alp=alp, lam=lam, propagation=propagation)
         else:
@@ -50,7 +49,6 @@ class VSGCNet(nn.Module):
         if self.with_mlp:
             if self.mlp_before:
                 h = self.mlps(features)
-                h = self.map(h)
                 h = self.forw_vsgc(graph, h, h)
             else:
                 h = self.map(features)
