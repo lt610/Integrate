@@ -28,9 +28,9 @@ class MLPLayer(nn.Module):
             else:
                 gain = 1.
             if self.initial == "uniform":
-                nn.init.xavier_uniform_(self.linear.weight)
+                nn.init.xavier_uniform_(self.linear.weight, gain=gain)
             elif self.initial == "normal":
-                nn.init.xavier_normal_(self.linear.weight)
+                nn.init.xavier_normal_(self.linear.weight, gain=gain)
             else:
                 raise Exception("There is no initial: {}".format(self.initial))
             if self.linear.bias is not None:

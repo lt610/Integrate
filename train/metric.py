@@ -51,4 +51,4 @@ def evaluate_all_acc_loss(model, graph, features, labels, masks):
             _, indices = th.max(tmp_logits, dim=1)
             correct = th.sum(indices == tmp_labels)
             results += (loss.item(), correct.item() * 1.0 / len(tmp_labels))
-        return results
+    return results

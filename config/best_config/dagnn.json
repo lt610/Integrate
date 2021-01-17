@@ -1,0 +1,146 @@
+{
+  "gpus": [0, 1, 2, 3, 4, 5, 7],
+  "max_proc_num": 2,
+  "parallel_proc_num": 8,
+  "wait_time": 5,
+  "seed": 1222,
+
+  "params": {
+    "cora_bef":{
+      "dataset": "cora",
+
+      "hidden_dim": 64,
+      "k": 12,
+      "dropout": 0.8,
+      "batch_norm": false,
+      "dropout_before": true,
+
+      "lr": 0.01,
+      "weight_decay": 0.005,
+
+      "num_epochs": 1500,
+      "patience": 100,
+      "ex_by_loss": true,
+      "num_runs": 100
+    },
+    "cora_aft":{
+      "dataset": "cora",
+
+      "hidden_dim": 64,
+      "k": 12,
+      "dropout": 0.8,
+      "batch_norm": false,
+      "dropout_before": false,
+
+      "lr": 0.01,
+      "weight_decay": 0.005,
+
+      "num_epochs": 1500,
+      "patience": 100,
+      "ex_by_loss": true,
+      "num_runs": 100
+    },
+    "citeseer_bef":{
+      "dataset": "citeseer",
+
+      "hidden_dim": 64,
+      "k": 16,
+      "dropout": 0.8,
+      "batch_norm": false,
+      "dropout_before": true,
+
+      "lr": 0.01,
+      "weight_decay": 0.02,
+
+      "num_epochs": 1500,
+      "patience": 100,
+      "ex_by_loss": true,
+      "num_runs": 100
+    },
+    "citeseer_aft":{
+      "dataset": "citeseer",
+
+      "hidden_dim": 64,
+      "k": 16,
+      "dropout": 0.5,
+      "batch_norm": false,
+      "dropout_before": false,
+
+      "lr": 0.01,
+      "weight_decay": 0.02,
+
+      "num_epochs": 1500,
+      "patience": 100,
+      "ex_by_loss": true,
+      "num_runs": 100
+    },
+    "pubmed_bef":{
+      "dataset": "pubmed",
+
+      "hidden_dim": 64,
+      "k": 20,
+      "dropout": 0.8,
+      "batch_norm": false,
+      "dropout_before": true,
+
+      "lr": 0.01,
+      "weight_decay": 0.005,
+
+      "num_epochs": 1500,
+      "patience": 100,
+      "ex_by_loss": true,
+      "num_runs": 100
+    },
+    "pubmed_aft":{
+      "dataset": "pubmed",
+
+      "hidden_dim": 64,
+      "k": 24,
+      "dropout": 0,
+      "batch_norm": false,
+      "dropout_before": false,
+
+      "lr": 0.01,
+      "weight_decay": 0.005,
+
+      "num_epochs": 1500,
+      "patience": 100,
+      "ex_by_loss": true,
+      "num_runs": 100
+    },
+    "arxiv_bef":{
+      "dataset": "ogbn-arxiv",
+
+      "hidden_dim": 256,
+      "k": 14,
+      "dropout": 0,
+      "batch_norm": true,
+      "dropout_before": true,
+
+      "lr": 0.01,
+      "weight_decay": 5e-6,
+
+      "num_epochs": 1500,
+      "patience": 100,
+      "ex_by_loss": true,
+      "num_runs": 10
+    },
+    "arxiv_aft":{
+      "dataset": "ogbn-arxiv",
+
+      "hidden_dim": 512,
+      "k": 16,
+      "dropout": 0.5,
+      "batch_norm": true,
+      "dropout_before": false,
+
+      "lr": 0.005,
+      "weight_decay": 5e-5,
+
+      "num_epochs": 1500,
+      "patience": 100,
+      "ex_by_loss": true,
+      "num_runs": 10
+    }
+  }
+}

@@ -8,13 +8,13 @@
   "params": {
       "dataset": "cora",
 
-      "k": 4,
+      "k": 50,
 
       "lr": 0.2,
       "weight_decay": 5e-5,
 
       "num_epochs": 1500,
-      "patience": 100,
+      "patience": 1500,
       "ex_by_loss": true,
       "num_runs": 1
     }

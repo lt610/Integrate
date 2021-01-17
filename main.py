@@ -14,7 +14,7 @@ ex.observers.append(MongoObserver(url='10.192.9.196:27017',
 @ex.config
 def base_config():
     tags = "debug"
-    config_name = "vsgc"
+    config_name = "dagnn"
     if tags == "debug":
         ex.add_config('config/base_config/{}.json'.format(config_name))
     elif tags == "final":
