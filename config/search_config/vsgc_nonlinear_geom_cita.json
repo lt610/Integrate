@@ -1,23 +1,23 @@
 {
-  "gpus": [1, 2, 3],
+  "gpus": [3, 4, 5],
   "max_proc_num": 2,
   "parallel_proc_num": 6,
   "wait_time": 5,
   "seed": 2333,
 
   "params": {
-    "dataset": ["cora", "citeseer"],
+    "dataset": ["geom-cora", "geom-citeseer", "geom-pubmed"],
 
-    "hidden_dim": [128],
-    "k": [2, 4, 8, 16, 24, 32, 40],
+    "hidden_dim": [64],
+    "k": [2, 4, 6, 8],
     "alp": [1],
     "lam": [1, 0.95, 1.05, 0.85, 1.15],
     "batch_norm": [false],
     "dropout": [0, 0.5, 0.8],
     "dropout_before": [true],
     "propagation": ["lt"],
-    "with_mlp": [false],
-    "mlp_before": [false],
+    "with_mlp": [true],
+    "mlp_before": [true],
 
     "lr": [0.5, 0.3, 0.1, 0.01],
     "weight_decay": [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6],
@@ -25,6 +25,6 @@
     "num_epochs": [1500],
     "patience": [100],
     "ex_by_loss": [true],
-    "num_runs": [5]
+    "num_runs": [10]
   }
 }

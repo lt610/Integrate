@@ -7,7 +7,7 @@ import torch.nn.functional as F
 
 class VSGCNet(nn.Module):
     def __init__(self, in_dim, hidden_dim, out_dim, bias=True, k=1, alp=1, lam=1, activation=F.relu,
-                 batch_norm=False, drop_map=0, drop_mlp=0, dropout_before=True, propagation=0,
+                 batch_norm=False, dropout=0, dropout_before=True, propagation=0,
                  with_mlp=False, mlp_before=False):
 
         super(VSGCNet, self).__init__()
@@ -22,13 +22,13 @@ class VSGCNet(nn.Module):
                 mlps_in_dim, mlps_hidden_dim, mlps_out_dim = hidden_dim, hidden_dim, out_dim
             self.mlps = MLPNet(layer_num=2, in_dim=mlps_in_dim, hidden_dim=mlps_hidden_dim,
                                out_dim=mlps_out_dim, bias=bias, activation=activation,
-                               batch_norm=batch_norm, dropout=drop_mlp, dropout_before=dropout_before,
+                               batch_norm=batch_norm, dropout=dropout, dropout_before=dropout_before,
                                initial="normal", gain=False)
         else:
             map_in_dim, map_out_dim = in_dim, out_dim
-        if not mlp_before:
+        if not with_mlp or not mlp_before:
             self.map = MLPLayer(in_dim=map_in_dim, out_dim=map_out_dim, batch_norm=batch_norm,
-                                dropout=drop_map, dropout_before=dropout_before,
+                                dropout=dropout, dropout_before=dropout_before,
                                 initial="normal", gain=False)
         if self.propagation == "exact":
             self.vsgcs = VSGCLayer(alp=alp, lam=lam, propagation=propagation)

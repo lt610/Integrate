@@ -10,8 +10,8 @@ def search_mongo(query, sort):
     return items
 
 
-def parse_acc(ex_name):
-    query = {"experiment.name": ex_name}
+def parse_acc(ex_name, start, end):
+    query = {"experiment.name": ex_name, "config.params.k": {"$in": [i for i in range(start, end+1)]}}
     sort = "config.params.k"
     items = search_mongo(query, sort)
     all_idxs = []
@@ -32,32 +32,43 @@ def parse_acc(ex_name):
 def print_and_plot_vary_prop():
 
     title = "vary_prop_cora"
+    start, end = 2, 100
 
-    ex_name = "vsgc_{}".format(title)
-    all_idxs, all_accs, part_idxs, part_accs = parse_acc(ex_name)
+    ex_name = "vsgc_{}__".format(title)
+    all_idxs, all_accs, part_idxs, part_accs = parse_acc(ex_name, start, end)
     print("{}: {}".format(ex_name, ",".join(part_accs)))
     vsgc_accs = all_accs
+
     if title == "vary_prop_cora":
-        exact_accs = [83.52 for _ in range(2, 33)]
+        exact_accs = [83.18 for _ in range(start, end + 1)]
     else:
-        exact_accs = [73.15 for _ in range(2, 33)]
+        exact_accs = [73.14 for _ in range(start, end + 1)]
 
     ex_name = "sgc_{}".format(title)
-    all_idxs, all_accs, part_idxs, part_accs = parse_acc(ex_name)
+    all_idxs, all_accs, part_idxs, part_accs = parse_acc(ex_name, start, end)
     print("{}: {}".format(ex_name, ",".join(part_accs)))
     sgc_accs = all_accs
 
-    plt.title(title)
-    plt.xlabel("prop step")
-    plt.ylabel("test acc")
-    plt.xlim(1.5, 32.5)
+    # plt.title(title)
+    plt.figure(figsize=(9, 5))
+    plt.rc('font', size=17)
+
+    plt.xlabel("Propagation Steps")
+    plt.ylabel("Test Accuracy")
+    plt.xlim(start - 0.5, end + 0.5)
+
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
 
     marker = ''
     ms = 4
-    plt.plot(all_idxs, vsgc_accs, color='green', linestyle='-', marker=marker, ms=ms, label="base")
-    plt.plot(all_idxs, sgc_accs, color='orange', linestyle='-', marker=marker, ms=ms, label="sgc")
-    plt.plot(all_idxs, exact_accs, color='blueviolet',linestyle='--', marker=marker, ms=ms, label="exact")
+
+    plt.plot(all_idxs, vsgc_accs, color='green', linestyle='-', marker=marker, ms=ms, label="$TWIRLS_{base}$")
+    plt.plot(all_idxs, sgc_accs, color='orange', linestyle='-', marker=marker, ms=ms, label="SGC")
+    plt.plot(all_idxs, exact_accs, color='blueviolet',linestyle='--', marker=marker, ms=ms, label="Analytical")
+
     plt.legend()
+    plt.savefig("../result/{}.eps".format(title))
     plt.show()
 
 

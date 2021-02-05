@@ -6,12 +6,13 @@
   "seed": 2333,
 
   "params": {
-      "dataset": "ogbn-arxiv",
+      "dataset": "citeseer",
 
-      "k": 50,
+      "hid_dim": 64,
+      "n_layers": 2,
 
-      "lr": 0.2,
-      "weight_decay": 5e-5,
+      "lr": 0.01,
+      "weight_decay": 5e-4,
 
       "num_epochs": 1500,
       "patience": 100,

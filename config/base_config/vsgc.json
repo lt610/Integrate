@@ -1,31 +1,30 @@
 {
   "gpus": [0, 1, 2, 3],
-  "max_proc_num": 1,
+  "max_proc_num": 2,
   "parallel_proc_num": 1,
   "wait_time": 0,
   "seed": 2333,
 
   "params": {
-      "dataset": "geom-cornell",
+      "dataset": "citeseer",
 
-      "hidden_dim": 128,
-      "k": 4,
+      "hidden_dim": 64,
+      "k": 16,
       "alp": 1,
-      "lam": 0.01,
+      "lam": 1,
       "batch_norm": false,
-      "drop_map": 0,
-      "drop_mlp": 0,
+      "dropout": 0.5,
       "dropout_before": true,
       "propagation": "lt",
-      "with_mlp": true,
-      "mlp_before": true,
+      "with_mlp": false,
+      "mlp_before": false,
 
-      "lr": 0.3,
-      "weight_decay": 5e-5,
+      "lr": 0.1,
+      "weight_decay": 0.001,
 
-      "num_epochs": 2000,
-      "patience": 2000,
-      "ex_by_loss": false,
-      "num_runs": 10
+      "num_epochs": 1500,
+      "patience": 100,
+      "ex_by_loss": true,
+      "num_runs": 1
     }
 }

@@ -1,0 +1,30 @@
+{
+  "gpus": [0, 1, 2, 3, 4, 5, 6, 7],
+  "max_proc_num": 2,
+  "parallel_proc_num": 16,
+  "wait_time": 10,
+  "seed": 2333,
+
+  "params": {
+    "dataset": ["geom-texas", "geom-wisconsin", "geom-cornell", "geom-film"],
+
+    "hidden_dim": [64],
+    "k": [2, 4, 6, 8],
+    "alp": [1],
+    "lam": [0.001, 0.005, 0.01, 0.05, 0.1],
+    "batch_norm": [false],
+    "dropout": [0, 0.5, 0.8],
+    "dropout_before": [true],
+    "propagation": ["lt"],
+    "with_mlp": [true],
+    "mlp_before": [true],
+
+    "lr": [0.5, 0.3, 0.1, 0.01],
+    "weight_decay": [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6],
+
+    "num_epochs": [2000],
+    "patience": [200],
+    "ex_by_loss": [false],
+    "num_runs": [10]
+  }
+}

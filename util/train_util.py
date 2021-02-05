@@ -6,13 +6,11 @@ import dgl.function as fn
 def compute_D_and_e(g, lam, propagation):
     if propagation == "lt":
         degs = g.in_degrees().float() - 1.0
-        norm_lambd_1 = 1 / (lam * degs + 1).unsqueeze(1)
-        norm05 = (degs + 1).sqrt().unsqueeze(1)
-        norm_05 = 1 / norm05
+        nor_A = th.pow(lam * degs + 1, -0.5).unsqueeze(1)
+        nor_X = th.pow(lam * degs + 1, - 1).unsqueeze(1)
 
-        g.ndata["bef_A"] = norm_lambd_1 * norm05
-        g.ndata['aft_A'] = norm_05
-        g.ndata['bef_X'] = norm_lambd_1
+        g.ndata["nor_A"] = nor_A
+        g.ndata['nor_X'] = nor_X
         # 这里是后续扩展到大图训练的时候用到
         # g.apply_edges(fn.u_mul_v('bef_A', 'aft_A', 'e'))
         # g.update_all(fn.copy_e('e', 't'), fn.sum('t', 'D_tilde'))

@@ -50,7 +50,8 @@ def log_split(content="-" * 10, n=30):
 
 def generate_random_seeds(seed, nums):
     random.seed(seed)
-    return [random.randint(1, 999999999) for _ in range(nums)]
+    # return [random.randint(1, 999999999) for _ in range(nums)]
+    return [random.randint(0, 233333333) for _ in range(nums)]
 
 
 def set_random_state(seed):
@@ -59,6 +60,7 @@ def set_random_state(seed):
     th.manual_seed(seed)
     th.cuda.manual_seed_all(seed)
     th.backends.cudnn.deterministic = True
+    th.backends.cudnn.benchmark = False
 
 
 def get_gpu_proc_num(gpu=0):

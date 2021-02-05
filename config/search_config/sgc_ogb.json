@@ -1,0 +1,21 @@
+{
+  "gpus": [0, 1, 2, 3],
+  "max_proc_num": 2,
+  "parallel_proc_num": 8,
+  "wait_time": 10,
+  "seed": 2333,
+
+  "params": {
+      "dataset": ["ogbn-arxiv"],
+
+      "k": [2, 3, 4],
+
+      "lr": [0.5, 0.3, 0.1, 0.01],
+      "weight_decay": [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6],
+
+      "num_epochs": [1500],
+      "patience": [100],
+      "ex_by_loss": [true],
+      "num_runs": [10]
+    }
+}

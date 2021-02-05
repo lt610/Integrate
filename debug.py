@@ -26,11 +26,7 @@ def log_metric(epoch, degree=4, **metric):
         info += " | {} {}".format(key, value)
     print(info)
 
-a = "{:.4f}".format(0.22225)
-print(a)
-print(type(a))
-print(eval(a))
-print(type(eval(a)))
+print([i for i in range(65, 101)])
 
 
 

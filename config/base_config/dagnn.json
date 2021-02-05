@@ -20,6 +20,6 @@
       "num_epochs": 1500,
       "patience": 100,
       "ex_by_loss": true,
-      "num_runs": 10
+      "num_runs": 1
     }
 }

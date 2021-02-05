@@ -12,15 +12,15 @@ class VSGCLayer(nn.Module):
 
     def propagation_lt(self, graph, h, ini_h):
         g = graph.local_var()
-        bef_A, aft_A, bef_X = g.ndata["bef_A"], g.ndata["aft_A"], g.ndata["bef_X"]
-        ini_h = ini_h * bef_X
+        nor_A, nor_X = g.ndata["nor_A"], g.ndata["nor_X"]
+        ini_h = ini_h * nor_X
         pre_h = h
 
-        g.ndata["h"] = h * aft_A
+        g.ndata["h"] = h * nor_A
         g.update_all(fn.copy_u('h', 'm'),
                      fn.sum('m', 'h'))
         h = g.ndata.pop('h')
-        h = h * bef_A
+        h = h * nor_A
 
         h = self.alp * self.lam * h + (1 - self.alp) * pre_h + self.alp * ini_h
         return h

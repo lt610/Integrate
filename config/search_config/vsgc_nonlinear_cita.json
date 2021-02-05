@@ -1,25 +1,25 @@
 {
-  "gpus": [0, 1, 2, 3],
-  "max_proc_num": 2,
-  "parallel_proc_num": 6,
-  "wait_time": 5,
+  "gpus": [0, 1, 2, 3, 4, 5],
+  "max_proc_num": 1,
+  "parallel_proc_num": 12,
+  "wait_time": 10,
   "seed": 2333,
 
   "params": {
-    "dataset": ["cora", "citeseer"],
+    "dataset": ["citeseer", "pubmed"],
 
     "hidden_dim": [64],
-    "k": [2],
+    "k": [2, 4, 8, 16, 24, 32, 40, 48, 56, 64],
     "alp": [1],
     "lam": [1],
     "batch_norm": [false],
     "dropout": [0, 0.5, 0.8],
     "dropout_before": [true],
-    "propagation": ["exact"],
-    "with_mlp": [false],
-    "mlp_before": [false],
+    "propagation": ["lt"],
+    "with_mlp": [true],
+    "mlp_before": [true],
 
-    "lr": [0.5, 0.3, 0.1, 0.01],
+    "lr": [0.5, 0.3, 0.1, 0.01, 0.001],
     "weight_decay": [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6],
 
     "num_epochs": [1500],

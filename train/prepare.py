@@ -1,6 +1,7 @@
 from net.sgc_net import SGCNet
 from net.vsgc_net import VSGCNet
 from net.dagnn_net import DAGNNNet
+from net.gcn_net import GCNNet
 from train.early_stopping import EarlyStopping
 from util.data_util import load_data
 import torch as th
@@ -35,10 +36,10 @@ def prepare_model(device, params, num_feats, num_classes, model_name):
             alp=params["alp"],
             lam=params["lam"],
             batch_norm=params["batch_norm"],
-            drop_map=params["drop_map"],
-            drop_mlp=params["drop_mlp"],
+            dropout=params["dropout"],
             dropout_before=params["dropout_before"],
-            propagation=params["propagation"],
+            propagation=params["propagati"
+                               "on"],
             with_mlp=params["with_mlp"],
             mlp_before=params["mlp_before"]
         )
@@ -57,6 +58,13 @@ def prepare_model(device, params, num_feats, num_classes, model_name):
             in_dim=num_feats,
             out_dim=num_classes,
             k=params["k"]
+        )
+    elif model_name == "gcn":
+        model = GCNNet(
+            in_dim=num_feats,
+            hid_dim=params["hid_dim"],
+            out_dim=num_classes,
+            n_layers=params["n_layers"]
         )
     else:
         pass

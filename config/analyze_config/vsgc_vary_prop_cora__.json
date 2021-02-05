@@ -9,7 +9,7 @@
     "dataset": ["cora"],
 
     "hidden_dim": [64],
-    "k": [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64],
+    "k": [34, 6],
     "alp": [1],
     "lam": [1],
     "batch_norm": [false],
@@ -19,8 +19,8 @@
     "with_mlp": [false],
     "mlp_before": [false],
 
-    "lr": [0.3],
-    "weight_decay": [5e-5],
+    "lr": [0.1],
+    "weight_decay": [5e-4],
 
     "num_epochs": [1500],
     "patience": [100],

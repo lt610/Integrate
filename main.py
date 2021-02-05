@@ -1,6 +1,6 @@
 from sacred import Experiment
 from sacred.observers import MongoObserver
-from train.metric import evaluate_all_acc_loss, evaluate_single_acc_loss
+from train.metric import evaluate_all_acc_loss
 from train.prepare import prepare_data, prepare_model
 from train.train import train
 from util.lt_util import get_free_gpu, generate_random_seeds, set_random_state, \
@@ -13,7 +13,7 @@ ex.observers.append(MongoObserver(url='10.192.9.196:27017',
 @ex.config
 def base_config():
     tags = "debug"
-    config_name = "dagnn"
+    config_name = "vsgc"
     if tags == "debug":
         ex.add_config('config/base_config/{}.json'.format(config_name))
     elif tags == "final":
@@ -53,8 +53,10 @@ def main(gpus, max_proc_num, seed, model_name, params):
 
     for run in range(params["num_runs"]):
         set_random_state(random_seeds[run])
+        # 这里是为了适应full-supervised，如果是非常大的数据集，且每个run都一样，放在这里就会造成比较大的额外开销，而应该放到run外面
         graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = prepare_data(device, params, run)
         model, optimizer, early_stopping = prepare_model(device, params, num_feats, num_classes, model_name)
+        print(graph)
 
         if run == 0:
             log_split(" {}th run ".format(run))
